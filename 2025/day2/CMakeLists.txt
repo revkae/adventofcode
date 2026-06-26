@@ -3,4 +3,6 @@ project(day2)
 
 set(CMAKE_CXX_STANDARD 26)
 
-add_executable(day2 main.cpp)
+add_executable(day2 main.cpp
+        part1.cpp
+)

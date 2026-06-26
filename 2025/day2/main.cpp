@@ -22,7 +22,6 @@ int main() {
     }
 
     for (string & token : tokens) {
-        //cout << token << endl;
         auto pos = token.find('-');
 
         string first  = token.substr(0, pos);
@@ -32,10 +31,11 @@ int main() {
     }
 
     for (auto range : ranges) {
-        cout << range.first << " " << range.second << endl;
-        for (long long i = range.first; i <= range.second; ++i) {
+        for (long long i = range.first; i <= range.second; i++) {
             bool result = is_valid(i);
+            //cout << "ID: " << i << endl;
             if (!result) {
+                //cout << "Invalid ID: " << i << endl;
                 invalidids += i;
             }
         }
@@ -46,17 +46,42 @@ int main() {
     return 0;
 }
 
+string get_part_of_string(string input, int number) {
+    auto pos = number;
+
+    return input.substr(0, pos);
+}
+
+int test_part_with_string(string input, string part) {
+    if (input.length() % part.length() != 0) {
+        return -1;
+    }
+
+    int counter = 0;
+    for (int i = 0; i < input.length() / part.length(); i++) {
+        auto pos = i * part.length();
+        string result = input.substr(pos, part.length());
+
+        if (result == part) {
+            counter++;
+        } else {
+            counter = 0;
+            return counter;
+        }
+    }
+    return counter;
+}
+
 bool is_valid(long long number) {
     string test = to_string(number);
-    if (test.length() % 2 != 0) return true;
 
-    auto pos = test.length() / 2;
-
-    string first = test.substr(0, pos);
-    string second = test.substr(pos);
-
-    if (first == second) {
-        return false;
+    for (int i = 1; i <= test.length() / 2; i++) {
+        string part = get_part_of_string(test, i);
+        int result = test_part_with_string(test, part);
+        if (result >= 2) {
+            return false;
+        }
     }
+
     return true;
 }
